@@ -151,73 +151,129 @@
       { name: "耐咬互动玩具", price: "¥42", description: "日常互动和独处啃咬都能用，耐玩度更高", summary: "陪玩和独处啃咬", category: "玩具训练", image: "assets/products/chew-toy.jpg", alt: "耐咬互动玩具", tags: ["玩具", "互动", "耐咬", "猫狗"] },
       { name: "猫咪逗玩套装", price: "¥26", description: "每天短时间陪玩，也能让猫咪保持新鲜感", summary: "每天短时间互动陪玩", category: "玩具训练", image: "assets/products/cat-teaser-set.jpg", alt: "猫咪逗玩套装", tags: ["玩具", "猫", "互动", "陪玩"] }
     ];
-    const products = Array.isArray(window.NOMA_PRODUCTS) && window.NOMA_PRODUCTS.length ? window.NOMA_PRODUCTS : fallbackProducts;
-    const params = new URLSearchParams(window.location.search);
-    const requestedName = params.get("item")?.trim();
-    const selected = requestedName
-      ? products.find((product) => product.name === requestedName)
-      : products[0];
-    const selectedProduct = document.querySelector(".selected-product");
-    const image = document.getElementById("selected-product-image");
-    const selectedNameElement = document.getElementById("selected-product-name");
-    const selectedPriceElement = document.getElementById("selected-product-price");
-    const selectedNoteElement = document.getElementById("selected-product-note");
-    const recommendationList = document.getElementById("recommendation-list");
+    (function () {
+      var products = Array.isArray(window.NOMA_PRODUCTS) && window.NOMA_PRODUCTS.length ? window.NOMA_PRODUCTS : fallbackProducts;
+      var params = new URLSearchParams(window.location.search);
+      var requestedName = params.get("item");
+      var selectedProduct = document.querySelector(".selected-product");
+      var image = document.getElementById("selected-product-image");
+      var selectedNameElement = document.getElementById("selected-product-name");
+      var selectedPriceElement = document.getElementById("selected-product-price");
+      var selectedNoteElement = document.getElementById("selected-product-note");
+      var recommendationList = document.getElementById("recommendation-list");
 
-    function paymentUrl(product) {
-      return `payment.html?item=${encodeURIComponent(product.name)}`;
-    }
-
-    function getRecommendations(currentProduct, limit = 3) {
-      if (!currentProduct) {
-        return [];
+      if (requestedName) {
+        requestedName = requestedName.trim();
       }
 
-      return products
-        .filter((product) => product.name !== currentProduct.name)
-        .map((product) => {
-          const categoryScore = product.category === currentProduct.category ? 100 : 0;
-          const tagScore = product.tags.filter((tag) => currentProduct.tags.includes(tag)).length * 10;
-          return {
-            product,
-            score: categoryScore + tagScore
-          };
-        })
-        .sort((a, b) => b.score - a.score || products.indexOf(a.product) - products.indexOf(b.product))
-        .slice(0, limit)
-        .map((item) => item.product);
-    }
+      function paymentUrl(product) {
+        return "payment.html?item=" + encodeURIComponent(product.name);
+      }
 
-    function renderRecommendations(currentProduct) {
-      const recommendations = getRecommendations(currentProduct);
-      recommendationList.innerHTML = recommendations.map((product) => {
-        return `
-          <a class="recommend-card" href="${paymentUrl(product)}">
-            <img src="${product.image}" alt="${product.alt}">
-            <span>${product.name}</span>
-            <small>${product.summary}</small>
-            <strong>${product.price}</strong>
-          </a>
-        `;
-      }).join("");
-    }
+      function findProductByName(name) {
+        for (var i = 0; i < products.length; i += 1) {
+          if (products[i].name === name) {
+            return products[i];
+          }
+        }
+        return null;
+      }
 
-    if (selected) {
-      selectedNameElement.textContent = selected.name;
-      selectedPriceElement.textContent = selected.price;
-      selectedNoteElement.textContent = selected.description;
-      image.src = selected.image;
-      image.alt = selected.alt;
-      renderRecommendations(selected);
-    } else {
-      selectedProduct.classList.add("is-missing");
-      selectedNameElement.textContent = "未找到该商品，请重新选择";
-      selectedPriceElement.textContent = "";
-      selectedNoteElement.textContent = "返回商品清单后可以重新选择主粮零食、外出用品、洗护居家或玩具训练商品。";
-      image.removeAttribute("src");
-      image.alt = "";
-      recommendationList.innerHTML = "";
-    }
+      function countMatchedTags(product, currentProduct) {
+        var score = 0;
+        var productTags = Array.isArray(product.tags) ? product.tags : [];
+        var currentTags = Array.isArray(currentProduct.tags) ? currentProduct.tags : [];
+
+        for (var i = 0; i < productTags.length; i += 1) {
+          if (currentTags.indexOf(productTags[i]) !== -1) {
+            score += 1;
+          }
+        }
+
+        return score;
+      }
+
+      function getRecommendations(currentProduct, limit) {
+        var scoredProducts = [];
+
+        if (!currentProduct) {
+          return [];
+        }
+
+        for (var i = 0; i < products.length; i += 1) {
+          var product = products[i];
+
+          if (product.name === currentProduct.name) {
+            continue;
+          }
+
+          scoredProducts.push({
+            product: product,
+            index: i,
+            score: (product.category === currentProduct.category ? 100 : 0) + countMatchedTags(product, currentProduct) * 10
+          });
+        }
+
+        scoredProducts.sort(function (a, b) {
+          if (b.score !== a.score) {
+            return b.score - a.score;
+          }
+          return a.index - b.index;
+        });
+
+        return scoredProducts.slice(0, limit).map(function (item) {
+          return item.product;
+        });
+      }
+
+      function renderRecommendations(currentProduct) {
+        var recommendations = getRecommendations(currentProduct, 3);
+
+        recommendationList.innerHTML = recommendations.map(function (product) {
+          return [
+            '<a class="recommend-card" href="' + paymentUrl(product) + '">',
+            '<img src="' + product.image + '" alt="' + product.alt + '">',
+            "<span>" + product.name + "</span>",
+            "<small>" + (product.description || product.summary) + "</small>",
+            "<strong>" + product.price + "</strong>",
+            "<em>查看详情</em>",
+            "</a>"
+          ].join("");
+        }).join("");
+      }
+
+      function renderMissingProduct() {
+        selectedProduct.classList.add("is-missing");
+        selectedNameElement.textContent = "未找到该商品，请重新选择";
+        selectedPriceElement.textContent = "";
+        selectedNoteElement.textContent = "返回商品清单后可以重新选择主粮零食、外出用品、洗护居家或玩具训练商品。";
+        image.removeAttribute("src");
+        image.alt = "";
+        recommendationList.innerHTML = "";
+      }
+
+      function renderSelectedProduct(product) {
+        selectedProduct.classList.remove("is-missing");
+        selectedNameElement.textContent = product.name;
+        selectedPriceElement.textContent = product.price;
+        selectedNoteElement.textContent = product.description;
+        image.src = product.image;
+        image.alt = product.alt;
+        renderRecommendations(product);
+      }
+
+      if (requestedName) {
+        var matchedProduct = findProductByName(requestedName);
+
+        if (matchedProduct) {
+          renderSelectedProduct(matchedProduct);
+        } else {
+          renderMissingProduct();
+        }
+      } else {
+        renderSelectedProduct(products[0]);
+      }
+    }());
 
     const reviewForm = document.querySelector(".review-form");
     const formStatus = document.querySelector(".form-status");
