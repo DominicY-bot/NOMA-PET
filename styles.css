@@ -1198,6 +1198,27 @@ blockquote footer {
   font-size: 17px;
 }
 
+.recommend-card em {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+  margin-top: 16px;
+  padding: 0 18px;
+  color: var(--paper);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  background: var(--forest);
+  border-radius: 999px;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.recommend-card:hover em {
+  background: var(--ink);
+  transform: translateY(-1px);
+}
+
 
 .review-section {
   display: grid;
