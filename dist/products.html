@@ -48,11 +48,16 @@
 
     catalog.innerHTML = categories.map((category) => {
       const categoryProducts = products.filter((product) => product.categoryId === category.id);
-      const productLinks = categoryProducts.map((product) => `
-        <a href="payment.html?item=${encodeURIComponent(product.name)}" aria-label="${product.name} ${product.price}，确认选购">
+      const productCards = categoryProducts.map((product) => `
+        <a class="catalog-product-card" href="payment.html?item=${encodeURIComponent(product.name)}" aria-label="${product.name} ${product.price}，确认选购">
           <img src="${product.image}" alt="${product.alt}">
-          <span>${product.name}<small>${product.summary}</small></span>
-          <strong>${product.price}</strong>
+          <span>${product.category}</span>
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+          <div>
+            <strong>${product.price}</strong>
+            <em>确认选购</em>
+          </div>
         </a>
       `).join("");
 
@@ -63,7 +68,7 @@
             <h2>${category.title}</h2>
             <p>${category.description}</p>
           </div>
-          <div class="price-list">${productLinks}</div>
+          <div class="catalog-products">${productCards}</div>
         </article>
       `;
     }).join("");

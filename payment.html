@@ -139,7 +139,7 @@
   <script>
     const products = window.NOMA_PRODUCTS || [];
     const params = new URLSearchParams(window.location.search);
-    const requestedName = params.get("item");
+    const requestedName = params.get("item")?.trim();
     const selected = requestedName
       ? products.find((product) => product.name === requestedName)
       : products[0];
@@ -154,7 +154,7 @@
       return `payment.html?item=${encodeURIComponent(product.name)}`;
     }
 
-    function getRecommendations(currentProduct, limit = 4) {
+    function getRecommendations(currentProduct, limit = 3) {
       if (!currentProduct) {
         return [];
       }
@@ -176,10 +176,9 @@
 
     function renderRecommendations(currentProduct) {
       const recommendations = getRecommendations(currentProduct);
-      recommendationList.innerHTML = recommendations.map((product, index) => {
-        const featureClass = index === 0 ? " featured" : "";
+      recommendationList.innerHTML = recommendations.map((product) => {
         return `
-          <a class="recommend-card${featureClass}" href="${paymentUrl(product)}">
+          <a class="recommend-card" href="${paymentUrl(product)}">
             <img src="${product.image}" alt="${product.alt}">
             <span>${product.name}</span>
             <small>${product.summary}</small>

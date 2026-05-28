@@ -816,7 +816,7 @@ blockquote footer {
 
 .catalog-item {
   display: grid;
-  grid-template-columns: minmax(240px, 0.74fr) minmax(320px, 1.26fr);
+  grid-template-columns: minmax(220px, 0.36fr) minmax(420px, 1fr);
   gap: 44px;
   padding: 30px;
   scroll-margin-top: 138px;
@@ -842,6 +842,87 @@ blockquote footer {
 .price-list {
   display: grid;
   gap: 12px;
+}
+
+.catalog-products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.catalog-product-card {
+  min-width: 0;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.catalog-product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: rgba(41, 73, 59, 0.24);
+}
+
+.catalog-product-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+  background: var(--wash);
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+}
+
+.catalog-product-card > span {
+  width: fit-content;
+  padding: 6px 10px;
+  border: 1px solid rgba(41, 73, 59, 0.18);
+  border-radius: 999px;
+  color: var(--forest);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.catalog-product-card h3 {
+  margin: 16px 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.16;
+}
+
+.catalog-product-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.catalog-product-card div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.catalog-product-card strong {
+  color: var(--clay);
+  font-size: 18px;
+}
+
+.catalog-product-card em {
+  color: var(--forest);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .price-list a,
@@ -1064,7 +1145,7 @@ blockquote footer {
 
 .recommendation-matrix {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: 18px;
 }
@@ -1086,29 +1167,14 @@ blockquote footer {
   border-color: rgba(41, 73, 59, 0.24);
 }
 
-.recommend-card.featured {
-  display: grid;
-  grid-template-columns: minmax(180px, 0.9fr) minmax(220px, 1fr);
-  grid-column: span 1;
-  gap: 22px;
-  align-items: center;
-}
-
 .recommend-card img {
   width: 100%;
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 4 / 3;
   display: block;
   object-fit: cover;
   background: var(--wash);
   margin-bottom: 18px;
   border-radius: var(--radius-sm);
-}
-
-.recommend-card.featured img {
-  height: 100%;
-  min-height: 230px;
-  margin-bottom: 0;
-  aspect-ratio: auto;
 }
 
 .recommend-card span {
@@ -1132,9 +1198,6 @@ blockquote footer {
   font-size: 17px;
 }
 
-.recommend-card.featured strong {
-  margin-top: 24px;
-}
 
 .review-section {
   display: grid;
@@ -1347,13 +1410,13 @@ blockquote footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .catalog-products,
   .recommendation-matrix {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .recommend-card.featured {
-    grid-column: span 2;
-    grid-template-columns: minmax(180px, 0.9fr) minmax(220px, 1fr);
+  .recommendation-matrix {
+    max-width: 760px;
   }
 
   .store-detail-media {
@@ -1489,6 +1552,11 @@ blockquote footer {
     padding: 22px;
   }
 
+  .catalog-products,
+  .recommendation-matrix {
+    grid-template-columns: 1fr;
+  }
+
   .price-list a,
   .price-table a {
     gap: 12px;
@@ -1499,21 +1567,6 @@ blockquote footer {
     width: 62px;
     height: 62px;
     flex-basis: 62px;
-  }
-
-  .recommendation-matrix {
-    grid-template-columns: 1fr;
-  }
-
-  .recommend-card.featured {
-    grid-column: span 1;
-    display: flex;
-  }
-
-  .recommend-card.featured img {
-    min-height: 0;
-    aspect-ratio: 5 / 4;
-    margin-bottom: 18px;
   }
 
   .button {
