@@ -33,14 +33,15 @@ window.NOMA_PRODUCTS = [
     tags: ["主粮", "猫", "补水", "日常加餐"]
   },
   {
-    name: "轻量城市牵引绳",
+    name: "城市牵引绳",
     price: "¥68",
     description: "日常散步轻巧顺手，城市通勤和社区遛弯都用得上",
     summary: "社区散步和日常通勤",
     category: "外出用品",
     categoryId: "walking",
     image: "assets/products/city-leash.jpg",
-    alt: "轻量城市牵引绳",
+    alt: "城市牵引绳",
+    aliases: ["轻量城市牵引绳"],
     tags: ["外出", "牵引", "散步", "城市"]
   },
   {
@@ -77,14 +78,15 @@ window.NOMA_PRODUCTS = [
     tags: ["洗护", "敏感", "居家", "清洁"]
   },
   {
-    name: "除味清洁喷雾",
+    name: "除味喷雾",
     price: "¥39",
     description: "窝垫、地垫和日常活动区都能用",
     summary: "窝垫、地垫、活动区",
     category: "洗护居家",
     categoryId: "home",
     image: "assets/products/cleaning-spray.jpg",
-    alt: "除味清洁喷雾",
+    alt: "除味喷雾",
+    aliases: ["除味清洁喷雾"],
     tags: ["清洁", "除味", "居家", "喷雾"]
   },
   {
@@ -110,14 +112,15 @@ window.NOMA_PRODUCTS = [
     tags: ["玩具", "训练", "嗅闻", "室内"]
   },
   {
-    name: "耐咬互动玩具",
+    name: "耐咬玩具",
     price: "¥42",
     description: "日常互动和独处啃咬都能用，耐玩度更高",
     summary: "陪玩和独处啃咬",
     category: "玩具训练",
     categoryId: "play",
     image: "assets/products/chew-toy.jpg",
-    alt: "耐咬互动玩具",
+    alt: "耐咬玩具",
+    aliases: ["耐咬互动玩具"],
     tags: ["玩具", "互动", "耐咬", "猫狗"]
   },
   {

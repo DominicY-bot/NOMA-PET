@@ -28,12 +28,13 @@
 
     <section class="selected-product" aria-live="polite">
       <div class="selected-product-media">
-        <img id="selected-product-image" src="assets/products/freeze-dried-treats.jpg" alt="冻干训练零食">
+        <img id="selected-product-image" src="" alt="">
       </div>
       <div class="selected-product-copy">
         <p class="section-kicker">Selected item</p>
-        <h2 id="selected-product-name">冻干训练零食</h2>
-        <strong id="selected-product-price">¥29</strong>
+        <h2 id="selected-product-name">正在读取商品</h2>
+        <strong id="selected-product-price"></strong>
+        <div class="selected-product-meta" id="selected-product-meta" aria-label="商品分类和标签"></div>
         <p id="selected-product-note">确认商品后可联系门店预留，备注商品名和手机号后四位更方便核对</p>
         <div class="button-row">
           <a class="button dark" href="products.html">重新选择</a>
@@ -135,30 +136,17 @@
     <a href="products.html">返回商品清单</a>
   </footer>
 
-  <script src="scripts/products-data.js"></script>
+  <script src="scripts/products-data.js?v=20260529"></script>
   <script>
-    const fallbackProducts = [
-      { name: "冻干训练零食", price: "¥29", description: "小份量好携带，散步、训练和日常奖励都顺手", summary: "散步、训练、随身奖励", category: "主粮零食", image: "assets/products/freeze-dried-treats.jpg", alt: "冻干训练零食", tags: ["零食", "训练", "奖励", "猫狗"] },
-      { name: "低敏犬粮试吃装", price: "¥59", description: "先试口味和肠胃反应，再决定正装更稳妥", summary: "先试口味和肠胃反应", category: "主粮零食", image: "assets/products/dog-food-sample.jpg", alt: "低敏犬粮试吃装", tags: ["主粮", "犬粮", "低敏", "试吃"] },
-      { name: "猫咪主食罐组合", price: "¥86", description: "适合补水、换口味和日常加餐，确认库存后可预留", summary: "补水、换口味、日常加餐", category: "主粮零食", image: "assets/products/cat-wet-food.jpg", alt: "猫咪主食罐组合", tags: ["主粮", "猫", "补水", "日常加餐"] },
-      { name: "轻量城市牵引绳", price: "¥68", description: "日常散步轻巧顺手，城市通勤和社区遛弯都用得上", summary: "社区散步和日常通勤", category: "外出用品", image: "assets/products/city-leash.jpg", alt: "轻量城市牵引绳", tags: ["外出", "牵引", "散步", "城市"] },
-      { name: "透气胸背带", price: "¥128", description: "贴合胸背不勒脖子，到店可以按体型试背", summary: "到店按体型试背", category: "外出用品", image: "assets/products/dog-harness.jpg", alt: "透气胸背带", tags: ["外出", "牵引", "胸背", "试背"] },
-      { name: "旅行饮水杯", price: "¥76", description: "出门散步和短途旅行都方便，随身带水不占空间", summary: "短途外出随身补水", category: "外出用品", image: "assets/products/travel-water-bottle.jpg", alt: "旅行饮水杯", tags: ["外出", "便携", "饮水", "旅行"] },
-      { name: "低敏洗护露", price: "¥79", description: "轻气味，适合敏感家庭", summary: "轻气味，适合敏感家庭", category: "洗护居家", image: "assets/products/pet-shampoo.jpg", alt: "低敏洗护露", tags: ["洗护", "敏感", "居家", "清洁"] },
-      { name: "除味清洁喷雾", price: "¥39", description: "窝垫、地垫和日常活动区都能用", summary: "窝垫、地垫、活动区", category: "洗护居家", image: "assets/products/cleaning-spray.jpg", alt: "除味清洁喷雾", tags: ["清洁", "除味", "居家", "喷雾"] },
-      { name: "可拆洗睡垫", price: "¥188", description: "外套可拆洗，客厅、卧室或车里都能放", summary: "客厅、卧室、车内都能放", category: "洗护居家", image: "assets/products/sleeping-mat.jpg", alt: "可拆洗睡垫", tags: ["居家", "睡垫", "清洁", "可拆洗"] },
-      { name: "嗅闻训练垫", price: "¥96", description: "在家消耗精力，雨天或没法长时间外出时很好用", summary: "雨天和室内精力消耗", category: "玩具训练", image: "assets/products/snuffle-mat.jpg", alt: "嗅闻训练垫", tags: ["玩具", "训练", "嗅闻", "室内"] },
-      { name: "耐咬互动玩具", price: "¥42", description: "日常互动和独处啃咬都能用，耐玩度更高", summary: "陪玩和独处啃咬", category: "玩具训练", image: "assets/products/chew-toy.jpg", alt: "耐咬互动玩具", tags: ["玩具", "互动", "耐咬", "猫狗"] },
-      { name: "猫咪逗玩套装", price: "¥26", description: "每天短时间陪玩，也能让猫咪保持新鲜感", summary: "每天短时间互动陪玩", category: "玩具训练", image: "assets/products/cat-teaser-set.jpg", alt: "猫咪逗玩套装", tags: ["玩具", "猫", "互动", "陪玩"] }
-    ];
     (function () {
-      var products = Array.isArray(window.NOMA_PRODUCTS) && window.NOMA_PRODUCTS.length ? window.NOMA_PRODUCTS : fallbackProducts;
+      var products = Array.isArray(window.NOMA_PRODUCTS) ? window.NOMA_PRODUCTS : [];
       var params = new URLSearchParams(window.location.search);
       var requestedName = params.get("item");
       var selectedProduct = document.querySelector(".selected-product");
       var image = document.getElementById("selected-product-image");
       var selectedNameElement = document.getElementById("selected-product-name");
       var selectedPriceElement = document.getElementById("selected-product-price");
+      var selectedMetaElement = document.getElementById("selected-product-meta");
       var selectedNoteElement = document.getElementById("selected-product-note");
       var recommendationList = document.getElementById("recommendation-list");
 
@@ -170,10 +158,24 @@
         return "payment.html?item=" + encodeURIComponent(product.name);
       }
 
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
       function findProductByName(name) {
         for (var i = 0; i < products.length; i += 1) {
           if (products[i].name === name) {
             return products[i];
+          }
+        }
+        for (var j = 0; j < products.length; j += 1) {
+          if (Array.isArray(products[j].aliases) && products[j].aliases.indexOf(name) !== -1) {
+            return products[j];
           }
         }
         return null;
@@ -232,20 +234,28 @@
         recommendationList.innerHTML = recommendations.map(function (product) {
           return [
             '<a class="recommend-card" href="' + paymentUrl(product) + '">',
-            '<img src="' + product.image + '" alt="' + product.alt + '">',
-            "<span>" + product.name + "</span>",
-            "<small>" + (product.description || product.summary) + "</small>",
-            "<strong>" + product.price + "</strong>",
+            '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.alt) + '">',
+            "<span>" + escapeHtml(product.name) + "</span>",
+            "<small>" + escapeHtml(product.description || product.summary) + "</small>",
+            "<strong>" + escapeHtml(product.price) + "</strong>",
             "<em>查看详情</em>",
             "</a>"
           ].join("");
         }).join("");
       }
 
+      function renderProductMeta(product) {
+        var tags = Array.isArray(product.tags) ? product.tags : [];
+        selectedMetaElement.innerHTML = ["<span>" + escapeHtml(product.category) + "</span>"].concat(tags.map(function (tag) {
+          return "<span>" + escapeHtml(tag) + "</span>";
+        })).join("");
+      }
+
       function renderMissingProduct() {
         selectedProduct.classList.add("is-missing");
         selectedNameElement.textContent = "未找到该商品，请重新选择";
         selectedPriceElement.textContent = "";
+        selectedMetaElement.innerHTML = "";
         selectedNoteElement.textContent = "返回商品清单后可以重新选择主粮零食、外出用品、洗护居家或玩具训练商品。";
         image.removeAttribute("src");
         image.alt = "";
@@ -259,10 +269,13 @@
         selectedNoteElement.textContent = product.description;
         image.src = product.image;
         image.alt = product.alt;
+        renderProductMeta(product);
         renderRecommendations(product);
       }
 
-      if (requestedName) {
+      if (!products.length) {
+        renderMissingProduct();
+      } else if (requestedName) {
         var matchedProduct = findProductByName(requestedName);
 
         if (matchedProduct) {

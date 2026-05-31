@@ -1030,7 +1030,25 @@ blockquote footer {
   color: var(--clay);
   font-size: 30px;
   font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.selected-product-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 520px;
   margin-bottom: 22px;
+}
+
+.selected-product-meta span {
+  padding: 6px 10px;
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(219, 231, 223, 0.64);
+  border: 1px solid rgba(41, 73, 59, 0.14);
+  border-radius: 999px;
 }
 
 .selected-product-copy p:last-of-type {
